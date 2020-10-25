@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc && ncc build dist -o dist"
+  },
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.5",
+    "google-protobuf": "^3.13.0",
+    "grpc": "^1.24.3"
+  }
+}
