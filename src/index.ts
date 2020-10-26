@@ -7,7 +7,13 @@ import grpc from 'grpc'
  */
 async function invoke(call, callback) {
   const handler = require('/root/extension/dist/index.js')
-  await handler.run(call.request.getEvent());
+  const buf = Buffer.from(call.request.getEvent())
+  // Since event buffer is buffer of bytes that represents json
+  // structure passed by caller, convert bytes to json.
+  const event: any = buf.toJSON()
+  // Run extension and wait for it to finish.
+  await handler.run(event);
+  // Build up reply structure.
   const reply = new messages.InvokeReply()
   callback(null, reply);
 }

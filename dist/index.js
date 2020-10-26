@@ -15,16 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const runtime_pb_1 = __importDefault(require("../pb/runtime_pb"));
 const runtime_grpc_pb_1 = __importDefault(require("../pb/runtime_grpc_pb"));
 const grpc_1 = __importDefault(require("grpc"));
-console.log(runtime_pb_1.default.InvokeReplsy());
 /**
  * Implements the Invoke RPC method.
  */
 function invoke(call, callback) {
     return __awaiter(this, void 0, void 0, function* () {
         const handler = require('/root/extension/dist/index.js');
-        console.log(handler);
-        yield handler.run(call.request.getEvent());
-        callback(null, runtime_pb_1.default.InvokeReply());
+        const buf = Buffer.from(call.request.getEvent());
+        // Since event buffer is buffer of bytes that represents json
+        // structure passed by caller, convert bytes to json.
+        const event = buf.toJSON();
+        // Run extension and wait for it to finish.
+        yield handler.run(event);
+        // Build up reply structure.
+        const reply = new runtime_pb_1.default.InvokeReply();
+        callback(null, reply);
     });
 }
 function main() {
