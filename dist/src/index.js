@@ -25,19 +25,12 @@ function invoke(call, callback) {
         try {
             // Since event buffer is buffer of bytes that represents json
             // structure passed by caller, convert bytes to json.
-            const event = JSON.parse(Buffer.from(buf).toString('utf8'));
+            const event = Buffer.from(uint8).toString('utf8');
+            console.log(event);
+            // Run extension and wait for it to finish.
+            yield handler.run(event);
             // Build up reply structure.
             const reply = new runtime_pb_1.default.InvokeReply();
-            // Mark by default failed.
-            reply.setState(runtime_pb_1.default.State.FAIL);
-            // Run extension and wait for it to finish.
-            const res = yield handler.run(event);
-            if (!(res instanceof Error)) {
-                reply.setState(runtime_pb_1.default.State.SUCCESS);
-            }
-            else {
-                reply.setReason(res.message);
-            }
             callback(null, reply);
         }
         catch (err) {
@@ -46,7 +39,7 @@ function invoke(call, callback) {
     });
 }
 function main() {
-    const server = new grpc_1.default.Server();
+    var server = new grpc_1.default.Server();
     server.addService(runtime_grpc_pb_1.default.RPCService, { invoke });
     server.bind('0.0.0.0:50051', grpc_1.default.ServerCredentials.createInsecure());
     server.start();
