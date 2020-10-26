@@ -6,7 +6,6 @@ import grpc from 'grpc'
  * Implements the Invoke RPC method.
  */
 async function invoke(call, callback) {
-  console.log(call.request.getEvent());
   const handler = require('/root/extension/dist/index.js')
   console.log(handler)
   await handler.run(call.request.getEvent())

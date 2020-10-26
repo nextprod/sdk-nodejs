@@ -20,10 +20,9 @@ const grpc_1 = __importDefault(require("grpc"));
  */
 function invoke(call, callback) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(call.request.getEvent());
         const handler = require('/root/extension/dist/index.js');
         console.log(handler);
-        yield handler.run();
+        yield handler.run(call.request.getEvent());
         callback(null, runtime_pb_1.default.InvokeReply());
     });
 }
@@ -34,4 +33,3 @@ function main() {
     server.start();
 }
 main();
-//# sourceMappingURL=index.js.map
