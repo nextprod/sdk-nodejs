@@ -30,7 +30,7 @@ function deserialize_nex_InvokeRequest(buffer_arg) {
 // The greeting service definition.
 var RPCService = exports.RPCService = {
   // Sends a greeting
-invoke: {
+  invoke: {
     path: '/nex.RPC/Invoke',
     requestStream: false,
     responseStream: false,

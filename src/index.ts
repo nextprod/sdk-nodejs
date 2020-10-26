@@ -7,9 +7,9 @@ import grpc from 'grpc'
  */
 async function invoke(call, callback) {
   const handler = require('/root/extension/dist/index.js')
-  console.log(handler)
-  await handler.run(call.request.getEvent())
-  callback(null, messages.InvokeReply());
+  await handler.run(call.request.getEvent());
+  const reply = new messages.InvokeReply()
+  callback(null, reply);
 }
 
 function main() {

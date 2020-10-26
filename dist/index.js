@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const runtime_pb_1 = __importDefault(require("../pb/runtime_pb"));
 const runtime_grpc_pb_1 = __importDefault(require("../pb/runtime_grpc_pb"));
 const grpc_1 = __importDefault(require("grpc"));
+console.log(runtime_pb_1.default.InvokeReplsy());
 /**
  * Implements the Invoke RPC method.
  */
