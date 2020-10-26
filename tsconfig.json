@@ -10,7 +10,9 @@
     "sourceMap": true,
     "strict": true,
     "noImplicitAny": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    // Generate d.ts files
+    "declaration": true,
   },
   "exclude": [
     "lib",

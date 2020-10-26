@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "tsc && ncc build dist -o dist"
+    "build": "tsc"
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.5.5",
