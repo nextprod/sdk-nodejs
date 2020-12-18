@@ -16,7 +16,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const path = process.env.NEX_EXTENSION_PATH || '';
+const path = process.env.NEX_EXTENSION_PATH || "/root/extension/dist/index.js";
 if (path === '') {
     process.stdout.write("To run this extension NEX_EXTENSION_PATH must be set\n");
     process.exit(1);

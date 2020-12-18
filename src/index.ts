@@ -1,4 +1,4 @@
-const path = process.env.NEX_EXTENSION_PATH || '';
+const path = process.env.NEX_EXTENSION_PATH || "/root/extension/dist/index.js";
 
 if (path === '') {
   process.stdout.write("To run this extension NEX_EXTENSION_PATH must be set\n")
