@@ -1,38 +1,30 @@
-import messages from '../pb/runtime_pb';
-import services from '../pb/runtime_grpc_pb';
-import grpc, { Call } from 'grpc'
+const path = process.env.NEX_EXTENSION_PATH || '';
 
-/**
- * Implements the Invoke RPC method.
- */
-async function invoke(call, callback) {
-  const handler = require('/root/extension/dist/index.js')
-  const buf = call.request.getEvent()
+if (path === '') {
+  process.stdout.write("To run this extension NEX_EXTENSION_PATH must be set\n")
+  process.exit(1)
+}
+
+async function invoke(input: string) {
+  const handler = require(path)
   try {
-    // Since event buffer is buffer of bytes that represents json
-    // structure passed by caller, convert bytes to json.
-    const event: any = JSON.parse(Buffer.from(buf).toString('utf8'))
-    // Build up reply structure.
-    const reply = new messages.InvokeReply()
-    // Mark by default failed.
-    reply.setState(messages.State.FAIL)
-    // Run extension and wait for it to finish.
-    const res = await handler.run(event);
-    if (!(res instanceof Error)) {
-      reply.setState(messages.State.SUCCESS)
-    } else {
-      reply.setReason(res.message)
-    }
-    callback(null, reply);
-  } catch (err) {
-    callback(err, null)
+    const event: any = JSON.parse(input)
+    await handler.run(event);
+  } catch(err) {
+    process.stdout.write(err)
   }
 }
 
 function main() {
-  const server = new grpc.Server();
-  server.addService(services.RPCService, { invoke });
-  server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
-  server.start();
+  let input = ''
+  process.stdin.on('readable', () => {
+    const chunk = process.stdin.read();
+    if(chunk !== null){
+        input += chunk;
+    }
+  });
+  process.stdin.on('end', () => {
+    invoke(input)
+  });  
 }
 main()
